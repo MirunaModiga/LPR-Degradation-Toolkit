@@ -49,7 +49,7 @@ def parse_transform(transform_dict, h, w):
         albumentation_class = getattr(A, t_type)
         return albumentation_class(**params)
     else:
-        raise ValueError(f"[!] Transformare necunoscută: {t_type}")
+        raise ValueError(f"[!] Unknown transformation: {t_type}")
 
 def build_effect(effect_config, h, w):
     if effect_config["type"] == "Compose":
@@ -98,13 +98,13 @@ for img_path in image_files:
     try:
         image = np.array(Image.open(img_path).convert("RGB"))
     except Exception as e:
-        log(f"[!] Eroare la citirea fișierului {img_file}: {e}")
+        log(f"[!] Error reading file {img_file}: {e}")
         continue
 
     h, w = image.shape[:2]
 
     if h < min_h or w < min_w:
-        log(f"[i] Redimensionare: {img_file} de la ({w}x{h}) la ({min_w}x{min_h})")
+        log(f"[i] Resize: {img_file} from ({w}x{h}) to ({min_w}x{min_h})")
         image = cv2.resize(image, (min_w, min_h), interpolation=cv2.INTER_CUBIC)
         h, w = image.shape[:2]
 
@@ -113,7 +113,7 @@ for img_path in image_files:
             transform = build_effect(effect_config, h, w)
             augmented = transform(image=image)["image"]
         except Exception as e:
-            log(f"[!] Eroare la aplicarea efectului {effect_name} pe {img_file}: {e}")
+            log(f"[!] Error at effect {effect_name} on {img_file}: {e}")
             continue
 
         param_string = format_param_string(effect_name, effect_config)
@@ -123,8 +123,9 @@ for img_path in image_files:
 
         try:
             cv2.imwrite(output_path, cv2.cvtColor(augmented, cv2.COLOR_RGB2BGR))
-            log(f"[✓] Salvat: {output_path}")
+            log(f"[✓] Saved: {output_path}")
         except Exception as e:
-            log(f"[!] Eroare la salvare {output_path}: {e}")
+            log(f"[!] Error on saving {output_path}: {e}")
 
 log_file.close()
+
