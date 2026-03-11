@@ -3,13 +3,13 @@ This repository provides a systematic methodology for creating challenging licen
 
 ## Repository content
 
-* **`image_distortion_set.py`**: The main script used to automatically apply distortions using the Albumentations library.
+* **`image_distortion_set.py`**: The main script used to automatically apply distortions using the [Albumentations](https://explore.albumentations.ai/) library.
 * **`config.yaml`**: The settings file where you can configure the effects (motion blur, weather conditions, distance, perspective, etc.).
 * **`source_images.txt`**: A text file containing direct links to the original high-resolution license plate images used for the dataset.
 
 ## Input Requirements 
 
-The images referenced in **`source_images.txt`**  were sourced from PlatesMania, a specialized database of vehicle plates from actual traffic. To replicate the dataset or use the script effectively, please note the following pre-processing steps applied to the source data:
+The images referenced in **`source_images.txt`**  were sourced from [PlatesMania](https://platesmania.com/), a specialized database of vehicle plates from actual traffic. To replicate the dataset or use the script effectively, please note the following pre-processing steps applied to the source data:
 
 * ***Plate Extraction & Filtering***: Regions of interest (ROI) were localized and cropped using a [Roboflow](https://universe.roboflow.com/roboflow-universe-projects/license-plate-recognition-rxg4e) detector (97.2% mAP@50) with a confidence threshold > 70% and a validated aspect ratio between 3.0 and 6.0.
 
