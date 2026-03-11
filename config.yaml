@@ -1,0 +1,178 @@
+effects:
+  MOTION:
+    type: MotionBlur
+    param_order: [blur_limit, p]
+    params:
+      blur_limit: [7, 15]
+      p: 1.0
+
+  DISTANTA:
+    type: Compose
+    transforms:
+      - type: Resize
+        param_order: [height_scale, width_scale, interpolation]
+        params:
+          height_scale: 0.8
+          width_scale: 0.8
+          interpolation: INTER_AREA
+      - type: Resize
+        param_order: [height, width, interpolation]
+        params:
+          height: "original"
+          width: "original"
+          interpolation: INTER_LINEAR
+      - type: GaussianBlur
+        param_order: [blur_limit, p]
+        params:
+          blur_limit: [6,10]
+          p: 1.0
+      - type: Downscale
+        param_order: [scale_range, p]
+        params:
+          scale_range: [0.2, 0.25]
+          p: 1.0
+
+  SKEW:
+    type: Perspective
+    param_order: [scale, keep_size, fit_output, p]
+    params:
+      scale: [0.08, 0.35]
+      keep_size: true
+      fit_output: true
+      p: 1.0
+
+  OBSTRUCTIE:
+    type: CoarseDropout
+    param_order: [num_holes_range, hole_height_range, hole_width_range, fill]
+    params:
+      num_holes_range: [1, 2]
+      hole_height_range: [0.1, 0.2]
+      hole_width_range: [0.1, 0.2]
+      fill: 0
+
+  ZI_PLOAIE:
+    type: Compose
+    transforms:
+      - type: RandomRain
+        param_order: [drop_length, drop_width, drop_color, blur_value, brightness_coefficient, rain_type, p]
+        params:
+          drop_length: 20
+          drop_width: 1
+          drop_color: [200, 200, 200]
+          blur_value: 9
+          brightness_coefficient: 0.97
+          rain_type: torrential
+          p: 1.0
+      - type: MotionBlur
+        param_order: [blur_limit, p]
+        params:
+          blur_limit: 5
+          p: 1.0
+
+  ZI_NINSOARE:
+    type: Compose
+    transforms:
+      - type: RandomSnow
+        param_order: [snow_point_range, brightness_coeff, method, p]
+        params:
+          snow_point_range: [0.45, 0.48]
+          brightness_coeff: 2
+          method: bleach
+          p: 1.0
+      - type: RandomSnow
+        param_order: [snow_point_range, brightness_coeff, method, p]
+        params:
+          snow_point_range: [0.25, 0.28]
+          brightness_coeff: 0.3
+          method: texture
+          p: 1.0
+
+  NOAPTE_PLOAIE:
+    type: Compose
+    transforms:
+      - type: RandomRain
+        param_order: [drop_length, drop_width, drop_color, blur_value, brightness_coefficient, rain_type, p]
+        params:
+          drop_length: 15
+          drop_width: 1
+          drop_color: [230, 230, 230]
+          blur_value: 4
+          brightness_coefficient: 0.72
+          rain_type: torrential
+          p: 1.0
+      - type: RandomBrightnessContrast
+        param_order: [brightness_limit, contrast_limit, p]
+        params:
+          brightness_limit: [-0.5, -0.2]
+          contrast_limit: [0.3, 0.6]
+          p: 1.0
+      - type: GaussNoise
+        param_order: [std_range, mean_range, per_channel, noise_scale_factor, p]
+        params:
+          std_range : [0.1, 0.2]
+          mean_range : [0, 0]
+          per_channel : True
+          noise_scale_factor : 1
+          p: 0.5
+      - type: ToGray
+        param_order: [p]
+        params:
+          p: 1.0
+
+  NOAPTE_NINSOARE:
+    type: Compose
+    transforms:
+      - type: RandomSnow
+        param_order: [snow_point_range, brightness_coeff, method, p]
+        params:
+          snow_point_range: [0.3, 0.35]
+          brightness_coeff: 1.0
+          method: texture
+          p: 1.0
+      - type: RandomSnow
+        param_order: [snow_point_range, brightness_coeff, method, p]
+        params:
+          snow_point_range: [0.3, 0.35]
+          brightness_coeff: 1.0
+          method: bleach
+          p: 1.0
+      - type: RandomBrightnessContrast
+        param_order: [brightness_limit, contrast_limit, p]
+        params:
+          brightness_limit: [-0.5, -0.4]
+          contrast_limit: [0.3, 0.6]
+          p: 1.0
+      - type: GaussNoise
+        param_order: [std_range, mean_range, per_channel, noise_scale_factor, p]
+        params:
+          std_range : [0.1, 0.2]
+          mean_range : [0, 0]
+          per_channel : True
+          noise_scale_factor : 1
+          p: 0.5
+      - type: ToGray
+        param_order: [p]
+        params:
+          p: 1.0
+
+  SUPRAEXPUNERE:
+    type: Compose
+    transforms:
+      - type: RandomBrightnessContrast
+        param_order: [brightness_limit, contrast_limit, p]
+        params:
+          brightness_limit: [0.4, 0.7]
+          contrast_limit: [-0.4, -0.2]
+          p: 1.0
+      - type: HueSaturationValue
+        param_order: [hue_shift_limit, sat_shift_limit, val_shift_limit, p]
+        params:
+          hue_shift_limit: 0
+          sat_shift_limit: -20
+          val_shift_limit: 40
+          p: 1.0
+      - type: MotionBlur
+        param_order: [blur_limit, p]
+        params:
+          blur_limit: 3
+          p: 0.2
