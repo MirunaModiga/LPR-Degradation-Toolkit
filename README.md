@@ -24,7 +24,7 @@ The images referenced in **`source_images.txt`**  were sourced from PlatesMania,
 
 ## Configuration
 
-The toolkit is modular, with all distortion parameters managed through **`config.yaml`**. Each effect can be toggled and fine-tuned by adjusting its specific values and execution probability (`p`).
+The toolkit is modular, with all distortion parameters managed through **`config.yaml`**. Each effect can be toggled and fine-tuned by adjusting its specific values and execution probability (`p`). For a comprehensive list of all available image augmentations and their technical parameters, please refer to the official [Albumentations Documentation](https://albumentations.ai/docs/).
 
 ### Available Distortion Effects
 
